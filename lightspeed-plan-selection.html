@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lightspeed Plan Selection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 8px 0 4px;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <label>Current Plan</label>
+  <select id="planMenu" onchange="updateText()">
+    <option value="" disabled selected>Select a plan</option>
+    <option value="Core">Core</option>
+    <option value="Basic">Basic</option>
+    <option value="Plus">Plus</option>
+    <option value="Lean">Lean</option>
+    <option value="Standard">Standard</option>
+    <option value="Advanced">Advanced</option>
+    <option value="Pro">Pro</option>
+    <option value="Enterprise">Enterprise</option>
+  </select>
+
+  <label>Currency</label>
+  <select id="currencyMenu" onchange="updateText()">
+    <option value="" disabled selected>Select a currency</option>
+    <option value="USD">USD</option>
+    <option value="CAD">CAD</option>
+    <option value="AUD">AUD</option>
+    <option value="NZD">NZD</option>
+    <option value="ZAR">ZAR</option>
+    <option value="SGD">SGD</option>
+    <option value="GBP">GBP</option>
+    <option value="EUR">EUR</option>
+  </select>
+
+  <p id="dynamicText">Please select the current Lightspeed Retail version and currency</p>
+
+  <script>
+    function updateText() {
+      const plan = document.getElementById("planMenu").value;
+      const currency = document.getElementById("currencyMenu").value;
+      const dynamicText = document.getElementById("dynamicText");
+
+      if ((plan === "Core" || plan === "Basic") && currency) {
+        dynamicText.innerText = "Customer must upgrade to Plus subscription to activate Lightspeed Insights";
+      } else if (plan === "Plus" && currency) {
+        dynamicText.innerText = "Lightspeed Insights is included in the Plus subscription";
+      } else if (["Lean", "Standard", "Advanced", "Pro", "Enterprise"].includes(plan) && currency) {
+        let price;
+        switch (currency) {
+          case "USD": price = "$69 (per location, per month)"; break;
+          case "CAD": price = "$89 (per location, per month)"; break;
+          case "AUD": price = "$99 (per location, per month)"; break;
+          case "NZD": price = "$109 (per location, per month)"; break;
+          case "ZAR": price = "$799 (per location, per month)"; break;
+          case "SGD": price = "$89 (per location, per month)"; break;
+          case "GBP": price = "$59 (per location, per month)"; break;
+          case "EUR": price = "$69 (per location, per month)"; break;
+          default: price = "Select a currency";
+        }
+        dynamicText.innerText = price;
+      } else {
+        dynamicText.innerText = "Please select the current Lightspeed Retail version and currency";
+      }
+    }
+  </script>
+</body>
+</html>
